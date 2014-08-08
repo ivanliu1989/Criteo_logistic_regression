@@ -1,0 +1,495 @@
+NOTE: PROCEDURE PRINTTO used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+4    
+5    /* create library Criteo */
+6    libname Criteo 'C:\Users\Ivan.Liuyanfeng\Desktop\Data_Mining_Work_Space\Kaggle-Criteo';
+NOTE: Libref CRITEO was successfully assigned as follows: 
+      Engine:        V9 
+      Physical Name: C:\Users\Ivan.Liuyanfeng\Desktop\Data_Mining_Work_Space\Kaggle-Criteo
+7    
+8    PROC CONTENTS DATA=criteo._all_;
+NOTE: Writing HTML Body file: sashtml.htm
+9    run;
+
+NOTE: PROCEDURE CONTENTS used (Total process time):
+      real time           0.60 seconds
+      cpu time            0.28 seconds
+      
+
+10   
+11   PROC PRINT DATA=CRITEO.TEST(OBS=50);
+12   RUN;
+
+NOTE: There were 50 observations read from the data set CRITEO.TEST.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.09 seconds
+      cpu time            0.07 seconds
+      
+
+13   
+14   PROC PRINT DATA=CRITEO.TRAIN(OBS=50);
+15   RUN;
+
+NOTE: There were 50 observations read from the data set CRITEO.TRAIN.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.08 seconds
+      cpu time            0.07 seconds
+      
+
+16   
+17   /* Obtain all numeric variables */
+18   proc contents data=criteo.train out=criteo.pp;
+19   run;
+
+NOTE: The data set CRITEO.PP has 41 observations and 40 variables.
+NOTE: PROCEDURE CONTENTS used (Total process time):
+      real time           0.04 seconds
+      cpu time            0.03 seconds
+      
+
+20   
+21   %let inputs=I1 I2 I3 I4 I5 I6 I7 I8 I9 I10 I11
+22                           I12 I13 Id Label;
+23   
+24   %put &inputs;
+I1 I2 I3 I4 I5 I6 I7 I8 I9 I10 I11                         I12 I13 Id Label
+25   
+26   proc means data=criteo.train n nmiss mean min max;
+27           var &inputs;
+28   run;
+
+NOTE: There were 12689025 observations read from the data set CRITEO.TRAIN.
+NOTE: PROCEDURE MEANS used (Total process time):
+      real time           28.48 seconds
+      cpu time            21.65 seconds
+      
+29   /* redirect log to handle the log limitations */
+30   proc printto
+30 ! log="C:\Users\Ivan.Liuyanfeng\Desktop\Data_Mining_Work_Space\Kaggle-Criteo\cat_var.log";
+31   run;
+
+NOTE: PROCEDURE PRINTTO used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+32   
+33   /* create library Criteo */
+34   libname Criteo 'C:\Users\Ivan.Liuyanfeng\Desktop\Data_Mining_Work_Space\Kaggle-Criteo';
+NOTE: Libref CRITEO was successfully assigned as follows: 
+      Engine:        V9 
+      Physical Name: C:\Users\Ivan.Liuyanfeng\Desktop\Data_Mining_Work_Space\Kaggle-Criteo
+35   
+36   PROC CONTENTS DATA=criteo._all_;
+NOTE: Writing HTML Body file: sashtml1.htm
+37   run;
+
+NOTE: PROCEDURE CONTENTS used (Total process time):
+      real time           0.46 seconds
+      cpu time            0.20 seconds
+      
+
+38   
+39   PROC PRINT DATA=CRITEO.TEST(OBS=50);
+40   RUN;
+
+NOTE: There were 50 observations read from the data set CRITEO.TEST.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.07 seconds
+      cpu time            0.06 seconds
+      
+
+41   
+42   PROC PRINT DATA=CRITEO.TRAIN(OBS=50);
+43   RUN;
+
+NOTE: There were 50 observations read from the data set CRITEO.TRAIN.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.07 seconds
+      cpu time            0.06 seconds
+      
+
+44   /* Obtain all numeric variables */
+45   proc contents data=criteo.train out=criteo.pp;
+NOTE: Writing HTML Body file: sashtml2.htm
+46   run;
+
+NOTE: The data set CRITEO.PP has 41 observations and 40 variables.
+NOTE: PROCEDURE CONTENTS used (Total process time):
+      real time           0.43 seconds
+      cpu time            0.21 seconds
+      
+
+47   
+48   %let inputs=I1 I2 I3 I4 I5 I6 I7 I8 I9 I10 I11
+49               I12 I13 Id Label;
+50   
+51   %put &inputs;
+I1 I2 I3 I4 I5 I6 I7 I8 I9 I10 I11             I12 I13 Id Label
+52   
+53   proc means data=criteo.train n nmiss mean min max;
+54       var &inputs;
+55   run;
+
+NOTE: There were 45840617 observations read from the data set CRITEO.TRAIN.
+NOTE: PROCEDURE MEANS used (Total process time):
+      real time           51.57 seconds
+      cpu time            1:09.57
+      
+
+56   ODS HTML
+56 ! body='C:\Users\Ivan.Liuyanfeng\Desktop\Data_Mining_Work_Space\Kaggle-Criteo\de_num_var.htm
+56 ! l';
+NOTE: Writing HTML Body file: 
+      C:\Users\Ivan.Liuyanfeng\Desktop\Data_Mining_Work_Space\Kaggle-Criteo\de_num_var.html
+57   proc means data=criteo.train n nmiss mean min max;
+58       var &inputs;
+59   run;
+
+NOTE: There were 45840617 observations read from the data set CRITEO.TRAIN.
+NOTE: PROCEDURE MEANS used (Total process time):
+      real time           51.50 seconds
+      cpu time            1:10.09
+      
+
+60   ODS HTML close;
+61   /* Obtain all categorical variables */
+62   ODS HTML
+62 ! body='C:\Users\Ivan.Liuyanfeng\Desktop\Data_Mining_Work_Space\Kaggle-Criteo\de_cat_var.htm
+62 ! l';
+NOTE: Writing HTML Body file: 
+      C:\Users\Ivan.Liuyanfeng\Desktop\Data_Mining_Work_Space\Kaggle-Criteo\de_cat_var.html
+63   proc freq data=criteo.train;
+64       tables C1 - C2;
+65   run;
+
+NOTE: There were 45840617 observations read from the data set CRITEO.TRAIN.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           55.87 seconds
+      cpu time            18.14 seconds
+      
+
+66   ods html close;
+67   /* Obtain all categorical variables */
+68   ODS HTML
+68 ! body='C:\Users\Ivan.Liuyanfeng\Desktop\Data_Mining_Work_Space\Kaggle-Criteo\de_cat_var.htm
+68 ! l';
+NOTE: Writing HTML Body file: 
+      C:\Users\Ivan.Liuyanfeng\Desktop\Data_Mining_Work_Space\Kaggle-Criteo\de_cat_var.html
+69   proc freq data=criteo.train;
+70       tables C1 - C2;
+71   run;
+
+NOTE: There were 45840617 observations read from the data set CRITEO.TRAIN.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           1:02.00
+      cpu time            26.93 seconds
+      
+
+72   proc freq data=criteo.train;
+73       tables C3 - C4;
+74   run;
+
+NOTE: There were 45840617 observations read from the data set CRITEO.TRAIN.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           2:48.91
+      cpu time            2:36.04
+      
+
+75   proc freq data=criteo.train;
+76       tables C5 - C6;
+77   run;
+78   ods html close;
+
+79   /* redirect log to handle the log limitations */
+80   proc printto
+80 ! log="C:\Users\Ivan.Liuyanfeng\Desktop\Data_Mining_Work_Space\Kaggle-Criteo\cat_var.log";
+81   run;
+
+NOTE: PROCEDURE PRINTTO used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+82   
+83   /* create library Criteo */
+84   libname Criteo 'C:\Users\Ivan.Liuyanfeng\Desktop\Data_Mining_Work_Space\Kaggle-Criteo';
+NOTE: Libref CRITEO was successfully assigned as follows: 
+      Engine:        V9 
+      Physical Name: C:\Users\Ivan.Liuyanfeng\Desktop\Data_Mining_Work_Space\Kaggle-Criteo
+85   
+86   PROC CONTENTS DATA=criteo._all_;
+NOTE: Writing HTML Body file: sashtml6.htm
+87   run;
+
+NOTE: PROCEDURE CONTENTS used (Total process time):
+      real time           0.31 seconds
+      cpu time            0.23 seconds
+      
+
+88   
+89   PROC PRINT DATA=CRITEO.TEST(OBS=50);
+90   RUN;
+
+NOTE: There were 50 observations read from the data set CRITEO.TEST.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.08 seconds
+      cpu time            0.07 seconds
+      
+
+91   
+92   PROC PRINT DATA=CRITEO.TRAIN(OBS=50);
+93   RUN;
+
+NOTE: There were 50 observations read from the data set CRITEO.TRAIN.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.09 seconds
+      cpu time            0.10 seconds
+      
+
+94   
+95   /* Obtain all numeric variables */
+96   proc contents data=criteo.train out=criteo.pp;
+97   run;
+
+NOTE: The data set CRITEO.PP has 41 observations and 40 variables.
+NOTE: PROCEDURE CONTENTS used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.01 seconds
+      
+
+98   
+99   %let inputs=I1 I2 I3 I4 I5 I6 I7 I8 I9 I10 I11
+100              I12 I13 Id Label;
+101  
+102  %put &inputs;
+I1 I2 I3 I4 I5 I6 I7 I8 I9 I10 I11             I12 I13 Id Label
+103  
+104  ODS HTML
+104! body='C:\Users\Ivan.Liuyanfeng\Desktop\Data_Mining_Work_Space\Kaggle-Criteo\de_num_var.htm
+104! l';
+NOTE: Writing HTML Body file: 
+      C:\Users\Ivan.Liuyanfeng\Desktop\Data_Mining_Work_Space\Kaggle-Criteo\de_num_var.html
+ERROR: A component of C:\Users\IVAN~1.LIU\AppData\Local\Temp\SAS Temporary 
+       Files\_TD828_IVAN_LIU_\C:\Users\Ivan.Liuyanfeng\Desktop\Data_Mining_Work_Space\Kaggle-Cr
+       iteo\de_num_var.html is not a directory.
+ERROR: No body file. HTML output will not be created.
+105  proc means data=criteo.train n nmiss mean min max;
+106      var &inputs;
+107  run;
+
+NOTE: There were 45840617 observations read from the data set CRITEO.TRAIN.
+NOTE: PROCEDURE MEANS used (Total process time):
+      real time           51.09 seconds
+      cpu time            1:04.14
+      
+
+108  ODS HTML close;
+109  
+110  /* Obtain all categorical variables */
+111  ODS HTML
+111! body='C:\Users\Ivan.Liuyanfeng\Desktop\Data_Mining_Work_Space\Kaggle-Criteo\de_cat_var.htm
+111! l';
+NOTE: Writing HTML Body file: 
+      C:\Users\Ivan.Liuyanfeng\Desktop\Data_Mining_Work_Space\Kaggle-Criteo\de_cat_var.html
+112  proc freq data=criteo.train;
+113      tables C1 - C2;
+114  run;
+
+NOTE: There were 45840617 observations read from the data set CRITEO.TRAIN.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           1:01.07
+      cpu time            28.34 seconds
+      
+
+115  proc freq data=criteo.train;
+116      tables C3 - C4;
+117  run;
+
+NOTE: There were 45840617 observations read from the data set CRITEO.TRAIN.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           21:51.71
+      cpu time            3:30.01
+      
+
+118  proc freq data=criteo.train;
+119      tables C5 - C6;
+120  run;
+121  ods html close;
+
+122  /* create library Criteo */
+123  libname Criteo 'C:\Users\Ivan.Liuyanfeng\Desktop\Data_Mining_Work_Space\Kaggle-Criteo';
+NOTE: Libref CRITEO was successfully assigned as follows: 
+      Engine:        V9 
+      Physical Name: C:\Users\Ivan.Liuyanfeng\Desktop\Data_Mining_Work_Space\Kaggle-Criteo
+124  
+125  /* redirect log to handle the log limitations */
+126  proc printto
+126! log="C:\Users\Ivan.Liuyanfeng\Desktop\Data_Mining_Work_Space\Kaggle-Criteo\cat_var.log";
+127  run;
+
+NOTE: PROCEDURE PRINTTO used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+128  
+129  /* Closes output window */
+130  ods listing close;
+131  
+132  /* obtain data contents */
+133  ods html
+133! body='C:\Users\Ivan.Liuyanfeng\Desktop\Data_Mining_Work_Space\Kaggle-Criteo\contents.html'
+133! ;
+NOTE: Writing HTML Body file: 
+      C:\Users\Ivan.Liuyanfeng\Desktop\Data_Mining_Work_Space\Kaggle-Criteo\contents.html
+134  PROC CONTENTS DATA=criteo._all_;
+135  run;
+
+NOTE: PROCEDURE CONTENTS used (Total process time):
+      real time           0.17 seconds
+      cpu time            0.07 seconds
+      
+
+136  
+137  PROC PRINT DATA=CRITEO.TEST(OBS=50);
+138  RUN;
+
+NOTE: There were 50 observations read from the data set CRITEO.TEST.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.13 seconds
+      cpu time            0.12 seconds
+      
+
+139  
+140  PROC PRINT DATA=CRITEO.TRAIN(OBS=50);
+141  RUN;
+
+NOTE: There were 50 observations read from the data set CRITEO.TRAIN.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.08 seconds
+      cpu time            0.06 seconds
+      
+
+142  ods html close;
+143  
+144  /* Obtain all numeric variables */
+145  proc contents data=criteo.train out=criteo.pp;
+146  run;
+
+WARNING: No output destinations active.
+NOTE: The data set CRITEO.PP has 41 observations and 40 variables.
+NOTE: PROCEDURE CONTENTS used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+147  
+148  %let inputs=I1 I2 I3 I4 I5 I6 I7 I8 I9 I10 I11
+149              I12 I13 Id Label;
+150  %put &inputs;
+I1 I2 I3 I4 I5 I6 I7 I8 I9 I10 I11             I12 I13 Id Label
+151  
+152  ods html
+152! body='C:\Users\Ivan.Liuyanfeng\Desktop\Data_Mining_Work_Space\Kaggle-Criteo\de_num_var.htm
+152! l';
+NOTE: Writing HTML Body file: 
+      C:\Users\Ivan.Liuyanfeng\Desktop\Data_Mining_Work_Space\Kaggle-Criteo\de_num_var.html
+153  proc means data=criteo.train n nmiss mean min max;
+154      var &inputs;
+155  run;
+
+NOTE: There were 45840617 observations read from the data set CRITEO.TRAIN.
+NOTE: PROCEDURE MEANS used (Total process time):
+      real time           51.45 seconds
+      cpu time            1:09.34
+      
+
+156  ods html close;
+157  
+158  /* Obtain all categorical variables */
+159  ods html
+159! body='C:\Users\Ivan.Liuyanfeng\Desktop\Data_Mining_Work_Space\Kaggle-Criteo\de_cat_var.htm
+159! l';
+NOTE: Writing HTML Body file: 
+      C:\Users\Ivan.Liuyanfeng\Desktop\Data_Mining_Work_Space\Kaggle-Criteo\de_cat_var.html
+160  proc freq data=criteo.train;
+161      tables C1 - C2;
+162  run;
+
+NOTE: There were 45840617 observations read from the data set CRITEO.TRAIN.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           1:03.99
+      cpu time            30.26 seconds
+      
+
+163  proc freq data=criteo.train;
+164      tables C3 - C4;
+165  run;
+
+NOTE: There were 45840617 observations read from the data set CRITEO.TRAIN.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           27:36.31
+      cpu time            27:32.92
+      
+
+166  proc freq data=criteo.train;
+167      tables C5 - C6;
+168  run;
+
+NOTE: There were 45840617 observations read from the data set CRITEO.TRAIN.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           53.50 seconds
+      cpu time            18.84 seconds
+      NOTE: PROCEDURE PRINTTO used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+7    
+8    /* Closes output window */
+9    ods listing close;
+10   
+11   /* obtain data contents */
+12   ods html
+12 ! body='C:\Users\Ivan.Liuyanfeng\Desktop\Data_Mining_Work_Space\Kaggle-Criteo\contents.html'
+12 ! ;
+NOTE: Writing HTML Body file: 
+      C:\Users\Ivan.Liuyanfeng\Desktop\Data_Mining_Work_Space\Kaggle-Criteo\contents.html
+13   PROC CONTENTS DATA=criteo._all_;
+14   run;
+
+NOTE: PROCEDURE CONTENTS used (Total process time):
+      real time           0.09 seconds
+      cpu time            0.03 seconds
+      
+
+15   
+16   PROC PRINT DATA=CRITEO.TEST(OBS=50);
+17   RUN;
+
+NOTE: There were 50 observations read from the data set CRITEO.TEST.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.08 seconds
+      cpu time            0.06 seconds
+      
+
+18   
+19   PROC PRINT DATA=CRITEO.TRAIN(OBS=50);
+20   RUN;
+
+NOTE: There were 50 observations read from the data set CRITEO.TRAIN.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.09 seconds
+      cpu time            0.11 seconds
+      
+
+21   ods html close;
+NOTE: SAS Institute Inc., SAS Campus Drive, Cary, NC USA 27513-2414
+NOTE: The SAS System used:
+      real time           1:52.26
+      cpu time            10.60 seconds
+      
